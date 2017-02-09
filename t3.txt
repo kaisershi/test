@@ -1,0 +1,139 @@
+import java.io.FileInputStream;
+import java.io.File;
+
+/** Application TestCord.
+ *
+ *  
+ *  @author   Andrew P. Black
+ *  @version  1.0
+ */
+public class TestCord
+{
+
+    /** The main entry point to the class.
+     */
+
+  public static void assert(boolean predicate, java.lang.String meaning)
+    throws Exception
+  {
+    if (predicate) return;
+    System.out.println("error in test code");
+    throw new Exception(meaning);
+  }
+
+  public static void assertEquals(String s1, String s2)
+    throws Exception
+  {
+    if (s1.equals(s2)) return;
+    System.out.println("<<" + s1 + ">> != <<" + s2 + ">>");
+    assert(false, "unequal substrings found");
+  }
+
+  
+  public static void assertMatch(String s1, String s2)
+    throws Exception
+  {
+    if (s1.equalsIgnoreCase(s2)) return;
+    System.out.println("<<" + s1 + ">> != <<" + s2 + ">>");
+    assert(false, "unequal (ignoring case) substrings found");
+  }
+
+	public static void main(java.lang.String args[])
+    throws java.io.FileNotFoundException, java.io.IOException
+	{
+    try
+    {
+      System.out.println("starting ...");
+      cord.String text1 = Empty.string;
+      System.out.println("back in main");
+      FileInputStream f;
+      File poem;
+      try
+      {
+        poem = new File("c:\\tmp\\Owl & Pussy Cat");
+        f = new FileInputStream(poem);
+      }
+      catch
+       (java.io.FileNotFoundException ex)
+        {
+          System.out.println(ex);
+          return;
+        }
+
+      System.out.println("file opened ...");
+      int fLength = f.available();
+      int charsLeft = fLength;
+      final int maxReadSize = 20;
+      byte [] buf = new byte[maxReadSize];
+      while (charsLeft > 0)
+      {
+          int readLength = (int) Math.round(maxReadSize * Math.random());
+          int charsRead = f.read(buf, 0, readLength);
+          assert(charsRead != -1, "file size changed");
+          charsLeft -= charsRead;
+          text1 = text1.concat(Flat.string(new java.lang.String(buf, 0, charsRead)));
+      }
+
+      cord.String text2 = Empty.string;
+      f.close();
+                 // read it all again
+      f = new FileInputStream(poem);
+      charsLeft = fLength;
+      while (charsLeft > 0)
+      {
+          int readLength = (int) Math.round(maxReadSize * Math.random());
+          int charsRead = f.read(buf, 0, readLength);
+          assert(charsRead != -1, "file size changed");
+          charsLeft -= charsRead;
+          text2 = text2.concat(Flat.string(new java.lang.String(buf, 0, charsRead)));
+      }
+
+      assert(text1.length() == text2.length(), "text1 and text2 have different lengths!");
+
+      for (int i=0; i<50; i++)
+      {
+        int start = (int) Math.round(text1.length() * Math.random());
+        int end = (int) Math.round((text2.length() - start) * Math.random()) + start;
+        assertEquals(text1.substring(start, end), text2.substring(start, end));
+      }
+
+      text1 = text1.balance();
+
+
+      for (int i=0; i<50; i++)
+      {
+        int start = (int) Math.round(text1.length() * Math.random());
+        int end = (int) Math.round((text2.length() - start) * Math.random()) + start;
+        assertEquals(text1.substring(start, end), text2.substring(start, end));
+      }
+
+      text2 = text2.toUpperCase();
+      text1 = text1.toLowerCase();
+      for (int i=0; i<50; i++)
+      {
+        int start = (int) Math.round(text1.length() * Math.random());
+        int end = (int) Math.round((text2.length() - start) * Math.random()) + start;
+        assertMatch(text1.substring(start, end), text2.substring(start, end));
+      }
+
+
+      System.out.println(Flat.string("test completed OK!").toString());
+    }
+    catch
+      (java.lang.Exception ex)
+        {
+          ex.printStackTrace(System.out);
+        }
+    finally
+    {
+      try
+      {
+        while (true)
+        { Thread.sleep(1000);
+        }
+      }
+      catch (java.lang.InterruptedException ex) { return; }
+    }
+  }
+}
+
