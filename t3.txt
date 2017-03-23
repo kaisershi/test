@@ -4,13 +4,11 @@ import java.io.File;
 /** Application TestCord.
  *
  *  
- *  @author   Andrew P. Black
  *  @version  1.0
  */
 public class TestCord
 {
 
-    /** The main entry point to the class.
      */
 
   public static void assert(boolean predicate, java.lang.String meaning)
@@ -135,5 +133,5 @@ public class TestCord
       catch (java.lang.InterruptedException ex) { return; }
     }
   }
-}
+
 
